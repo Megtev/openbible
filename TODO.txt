@@ -1,0 +1,5 @@
+# Here is list of things to do.
+
+Autofind second monitor
+Grid show system
+Menu bar
