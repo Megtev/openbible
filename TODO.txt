@@ -1,5 +1,16 @@
 # Here is list of things to do.
 
-Autofind second monitor
-Grid show system
-Menu bar
+
+Books widget
+Chapter widget
+Verse widget
+Text widget
+Add quick search
+Widget that mirror second window into main window
+Add keyboard handler
+Widget with buttons to control everything without keyboard
+Implement grid system for main window
+Implement grid system for second window
+Implement db to save different translations
+Auto-recognition monitors.
+Menu bar (help, settings, about, etc.)
