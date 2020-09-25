@@ -1,8 +1,10 @@
 import sys
 from PyQt5 import QtWidgets
 
+from plugins import (BasePlugin, ButtonsPlugin)
 
-class OpenBibleMainGui(QtWidgets.QWidget):
+
+class OpenBibleMainGui(QtWidgets.QMainWindow):
     """The main Gui"""
 
     def __init__(self):
@@ -21,28 +23,16 @@ class OpenBibleMainGui(QtWidgets.QWidget):
         main_grid = QtWidgets.QGridLayout()
         main_grid.setHorizontalSpacing(12)
         main_grid.setVerticalSpacing(24)
-        self.setLayout(main_grid)
 
-        # Add second window to show info
-        # TODO driver to show and control all info in second window
-        self.show_info = ShowInfo()
+        plugins = [ButtonsPlugin(), ]
+        mediator = GuiPluginMediator(plugins)
 
-        # Add some test buttons -----------------
-        show_button = QtWidgets.QPushButton('Show', self)
-        hide_button = QtWidgets.QPushButton('Hide', self)
-        just_button = QtWidgets.QPushButton('Just button', self)
+        widget = QtWidgets.QWidget()
+        plugins[0]
+        main_grid.addWidget(plugins[0], 0, 0)
+        widget.setLayout(main_grid)
 
-        # self.show_button.move(50, 50)
-        show_button.clicked.connect(self.show_slides)
-        hide_button.clicked.connect(self.hide_slides)
-
-        main_grid.addWidget(show_button, 1, 1)
-        main_grid.addWidget(hide_button, 2, 1)
-        # main_grid.add
-        # hide_button.hide()
-        just_button.hide()
-        # End of test button code ---------------
-
+        self.setCentralWidget(widget)
         # Move main window to the center of display and show the window
         self.move_to_center()
 
@@ -80,21 +70,6 @@ class OpenBibleMainGui(QtWidgets.QWidget):
             event.accept()
         else:
             event.ignore()
-
-
-class ShowInfo(QtWidgets.QWidget):
-
-    def __init__(self):
-        super().__init__()
-        self.init_ui()
-
-    def init_ui(self):
-        self.setGeometry(900, 900, 300, 250)
-        self.setWindowTitle('ShowInfo')
-        # self.show()
-
-    def show_second_windows(self):
-        self.show()
 
 
 if __name__ == '__main__':
