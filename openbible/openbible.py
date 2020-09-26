@@ -1,7 +1,8 @@
 import sys
 from PyQt5 import QtWidgets
 
-from plugins import (BasePlugin, ButtonsPlugin)
+from mediator import (GuiPluginMediator, )
+from plugins import (ButtonsPlugin, )
 
 
 class OpenBibleMainGui(QtWidgets.QMainWindow):
@@ -24,30 +25,29 @@ class OpenBibleMainGui(QtWidgets.QMainWindow):
         main_grid.setHorizontalSpacing(12)
         main_grid.setVerticalSpacing(24)
 
-        plugins = [ButtonsPlugin(), ]
-        mediator = GuiPluginMediator(plugins)
+        plugins = [ButtonsPlugin, ]
+        self.mediator = GuiPluginMediator(plugins)
 
         widget = QtWidgets.QWidget()
-        plugins[0]
-        main_grid.addWidget(plugins[0], 0, 0)
+        main_grid.addWidget(self.mediator.get_widgets()[0], 0, 0)
         widget.setLayout(main_grid)
 
         self.setCentralWidget(widget)
         # Move main window to the center of display and show the window
         self.move_to_center()
 
-    def show_slides(self):
-        # Create new windows that shows text on second screen
-        # TODO
-        print('Show')
-        self.show_info.show()
-        # self.just_button.show()
-
-    def hide_slides(self):
-        # Hide additional window
-        print('Hide')
-        self.show_info.hide()
-        # self.just_button.hide()
+    # def show_slides(self):
+    #     # Create new windows that shows text on second screen
+    #     # TODO
+    #     print('Show')
+    #     self.show_info.show()
+    #     # self.just_button.show()
+    #
+    # def hide_slides(self):
+    #     # Hide additional window
+    #     print('Hide')
+    #     self.show_info.hide()
+    #     # self.just_button.hide()
 
     def move_to_center(self):
         qr = self.frameGeometry()
@@ -66,7 +66,7 @@ class OpenBibleMainGui(QtWidgets.QMainWindow):
             QtWidgets.QMessageBox.No)
 
         if reply == QtWidgets.QMessageBox.Yes:
-            self.show_info.close()
+            self.mediator.close(self)
             event.accept()
         else:
             event.ignore()

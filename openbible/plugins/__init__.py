@@ -1,5 +1,5 @@
 import abc
-
+import functools
 from PyQt5 import QtWidgets
 
 
@@ -18,6 +18,10 @@ class BasePlugin(abc.ABC):
     def mediator(self, mediator) -> None:
         self._mediator = mediator
 
+    @abc.abstractmethod
+    def is_widget(self):
+        pass
+
 
 class ButtonsPlugin(BasePlugin):
     """The plugin implement basic show/hide buttons to control additional
@@ -26,19 +30,23 @@ class ButtonsPlugin(BasePlugin):
     def __init__(self, mediator=None) -> None:
 
         super().__init__(mediator)
-
         self._widget = QtWidgets.QWidget()
         self.show_button = QtWidgets.QPushButton('Show')
         self.hide_button = QtWidgets.QPushButton('Hide')
-        self.show_button.clicked.connect(self._mediator.show(self))
-        self.hide_button.clicked.connect(self._mediator.hide(self))
+        self.show_button.clicked.connect(
+            functools.partial(self._mediator.show, self)
+        )
+        self.hide_button.clicked.connect(
+            functools.partial(self._mediator.hide, self)
+        )
 
         layout = QtWidgets.QGridLayout()
         layout.addWidget(self.show_button, 0, 0)
-        layout.addWidget(self.hide_button, 0, 0)
+        layout.addWidget(self.hide_button, 0, 1)
         self._widget.setLayout(layout)
 
     def is_widget(self):
+        """return True if the plugin is a widget"""
         return True
 
     def get_widget(self):

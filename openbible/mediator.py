@@ -1,6 +1,5 @@
 from PyQt5 import QtWidgets
 
-from plugins import BasePlugin
 
 class AdditionalWindow(QtWidgets.QWidget):
 
@@ -11,29 +10,34 @@ class AdditionalWindow(QtWidgets.QWidget):
     def init_ui(self):
         self.setGeometry(900, 900, 300, 250)
         self.setWindowTitle('AdditionalWindow')
-        # self.show()
 
     def show_second_windows(self):
         self.show()
 
 
-class GuiPluginMediator():
+class GuiPluginMediator:
     """Mediator to control all plugins"""
 
-    def __init__(self, plugins : list, *, arrangement=None) -> None:
+    def __init__(self, plugins: list) -> None:
         # Get all plugins and arrange them and create second window
-        self._plugins = plugins
-        for plugin in plugins:
-            plugin(self)
-
         self._additional_window = AdditionalWindow()
 
-    def notify(self, sender : BasePlugin, event) -> None:
+        self._widgets = []
+        for plugin in plugins:
+            self._widgets.append(plugin(self).get_widget())
+
+    def notify(self, sender, event) -> None:
         # Notify the mediator about changes
         pass
 
-    def show(self, sender : BasePlugin) -> None:
+    def show(self, sender) -> None:
         self._additional_window.show()
 
-    def hide(self, sender : BasePlugin) -> None:
+    def hide(self, sender) -> None:
         self._additional_window.hide()
+
+    def close(self, sender) -> None:
+        self._additional_window.close()
+
+    def get_widgets(self):
+        return self._widgets
