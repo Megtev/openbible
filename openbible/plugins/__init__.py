@@ -48,8 +48,8 @@ class ButtonsPlugin(BasePlugin):
         # self.show_button.setFixedSize(QtCore.QSize(80, 25))
         self._widget.setSizePolicy(
             QtWidgets.QSizePolicy(
-                QtWidgets.QSizePolicy.Minimum,
-                QtWidgets.QSizePolicy.Minimum
+                QtWidgets.QSizePolicy.Fixed,
+                QtWidgets.QSizePolicy.Fixed
             )
         )
         self.arrangement = (12, 24)
@@ -69,9 +69,7 @@ class NullPlugin(BasePlugin):
         super().__init__(mediator)
         self._widget = QtWidgets.QWidget()  # Create basic widget
 
-        layout = QtWidgets.QGridLayout()  # Add buttons to basic widget
-        layout.addWidget(QtWidgets.QPushButton('Null'), 0, 0)
-        # layout.addWidget(self.hide_button, 1, 0)
+        layout = QtWidgets.QGridLayout()
         self._widget.setLayout(layout)
         self.arrangement = (0, 0)
         self._widget.setSizePolicy(

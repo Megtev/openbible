@@ -40,6 +40,8 @@ class OpenBibleMainGui(QtWidgets.QMainWindow):
         self.move_to_center()
 
     def move_to_center(self):
+        # Move main window to center of the display (not testet with multiple
+        # displays)
         qr = self.frameGeometry()
         cp = QtWidgets.QDesktopWidget().availableGeometry().center()
         qr.moveCenter(cp)
@@ -47,9 +49,9 @@ class OpenBibleMainGui(QtWidgets.QMainWindow):
 
     # Build-in functions
 
+    '''
     def closeEvent(self, event):
         # Require additional confirmation to exit
-        event.accept()  # Temporary
         reply = QtWidgets.QMessageBox.question(
             self, 'Message',
             "Are you sure to quit?",
@@ -61,6 +63,7 @@ class OpenBibleMainGui(QtWidgets.QMainWindow):
             event.accept()
         else:
             event.ignore()
+    '''
 
 
 if __name__ == '__main__':

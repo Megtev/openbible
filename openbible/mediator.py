@@ -1,18 +1,34 @@
-from PyQt5 import QtWidgets
+from PyQt5 import (QtWidgets, QtGui, QtCore)
 
 
-class AdditionalWindow(QtWidgets.QWidget):
+class AdditionalWindow(QtWidgets.QMainWindow):
+    """Addidional window for second monitor, to show verse, lyrics..."""
+
+    test_verse = (
+        'For God so loved the world, that he gave his only begotten Son,'
+        ' that whosoever believeth in him should not perish, but have'
+        ' everlasting life.\nJohn 3:16'
+    )
 
     def __init__(self):
         super().__init__()
-        self.init_ui()
-
-    def init_ui(self):
         self.setGeometry(900, 900, 960, 520)
         self.setWindowTitle('AdditionalWindow')
 
-    def show_second_windows(self):
-        self.show()
+        self.view = QtWidgets.QGraphicsView()
+
+        scene = QtWidgets.QGraphicsScene()
+
+        t = QtWidgets.QGraphicsTextItem(self.test_verse)
+        # font = t.font()
+        font = QtGui.QFont('Arial', 60)
+        font.setBold(True)
+        t.setFont(font)
+        t.setTextWidth(800)
+        scene.addItem(t)
+
+        self.view.setScene(scene)
+        self.setCentralWidget(self.view)
 
 
 class GuiPluginMediator:
