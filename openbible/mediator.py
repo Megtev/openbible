@@ -8,7 +8,7 @@ class AdditionalWindow(QtWidgets.QWidget):
         self.init_ui()
 
     def init_ui(self):
-        self.setGeometry(900, 900, 300, 250)
+        self.setGeometry(900, 900, 960, 520)
         self.setWindowTitle('AdditionalWindow')
 
     def show_second_windows(self):
@@ -23,8 +23,13 @@ class GuiPluginMediator:
         self._additional_window = AdditionalWindow()
 
         self._widgets = []
+        self._plugins = []
         for plugin in plugins:
-            self._widgets.append(plugin(self).get_widget())
+            self._plugins.append(plugin(self))
+
+        for plugin in self._plugins:
+            if plugin.is_widget():
+                self._widgets.append(plugin.get_widget())
 
     def notify(self, sender, event) -> None:
         # Notify the mediator about changes
@@ -41,3 +46,6 @@ class GuiPluginMediator:
 
     def get_widgets(self):
         return self._widgets
+
+    def get_plugins(self):
+        return self._plugins

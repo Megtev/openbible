@@ -2,7 +2,7 @@ import sys
 from PyQt5 import QtWidgets
 
 from mediator import (GuiPluginMediator, )
-from plugins import (ButtonsPlugin, )
+from plugins import (ButtonsPlugin, NullPlugin)
 
 
 class OpenBibleMainGui(QtWidgets.QMainWindow):
@@ -25,29 +25,19 @@ class OpenBibleMainGui(QtWidgets.QMainWindow):
         main_grid.setHorizontalSpacing(12)
         main_grid.setVerticalSpacing(24)
 
-        plugins = [ButtonsPlugin, ]
+        # TODO plugins manager
+        plugins = [ButtonsPlugin, NullPlugin]
         self.mediator = GuiPluginMediator(plugins)
 
-        widget = QtWidgets.QWidget()
-        main_grid.addWidget(self.mediator.get_widgets()[0], 0, 0)
-        widget.setLayout(main_grid)
+        main_widget = QtWidgets.QWidget()
+        for (plugin, widget) in zip(self.mediator.get_plugins(),
+                          self.mediator.get_widgets()):
+            main_grid.addWidget(widget, *plugin.arrangement)
+        main_widget.setLayout(main_grid)
 
-        self.setCentralWidget(widget)
+        self.setCentralWidget(main_widget)
         # Move main window to the center of display and show the window
         self.move_to_center()
-
-    # def show_slides(self):
-    #     # Create new windows that shows text on second screen
-    #     # TODO
-    #     print('Show')
-    #     self.show_info.show()
-    #     # self.just_button.show()
-    #
-    # def hide_slides(self):
-    #     # Hide additional window
-    #     print('Hide')
-    #     self.show_info.hide()
-    #     # self.just_button.hide()
 
     def move_to_center(self):
         qr = self.frameGeometry()
@@ -59,6 +49,7 @@ class OpenBibleMainGui(QtWidgets.QMainWindow):
 
     def closeEvent(self, event):
         # Require additional confirmation to exit
+        event.accept()  # Temporary
         reply = QtWidgets.QMessageBox.question(
             self, 'Message',
             "Are you sure to quit?",
