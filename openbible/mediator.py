@@ -17,22 +17,39 @@ class AdditionalWindow(QtWidgets.QMainWindow):
 
         self.widget = QtWidgets.QWidget(self)
         self.grid = QtWidgets.QGridLayout()
-        verse_label = QtWidgets.QLabel()
-        verse_label.setText(self.test_verse)
-        verse_label.setWordWrap(True)
-        verse_label.setAlignment(
+        self.verse_label = QtWidgets.QLabel()
+        # verse_label.setText(self.test_verse)
+        # verse_label.setWordWrap(True)
+        # verse_label.setAlignment(
+        #     QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter
+        # )
+        # verse_label.setFrameStyle(QtWidgets.QLabel.Box)
+        # font = QtGui.QFont('Arial', 50)
+        # font.setBold(True)
+        # font_size = self.get_good_font_size(font, self.rect(), self.test_verse)
+        # font.setPointSize(font_size)
+        #
+        # verse_label.setFont(font)
+        self.grid.addWidget(self.verse_label)
+        self.widget.setLayout(self.grid)
+        self.setCentralWidget(self.widget)
+
+    def show_text(self):
+        # verse_label = QtWidgets.QLabel()
+        self.verse_label.setText(self.test_verse)
+        self.verse_label.setWordWrap(True)
+        self.verse_label.setAlignment(
             QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter
         )
-        verse_label.setFrameStyle(QtWidgets.QLabel.Box)
+        self.verse_label.setFrameStyle(QtWidgets.QLabel.Box)
         font = QtGui.QFont('Arial', 50)
         font.setBold(True)
         font_size = self.get_good_font_size(font, self.rect(), self.test_verse)
         font.setPointSize(font_size)
 
-        verse_label.setFont(font)
-        self.grid.addWidget(verse_label)
-        self.widget.setLayout(self.grid)
-        self.setCentralWidget(self.widget)
+        self.verse_label.setFont(font)
+        print(font.pointSize())
+        # self.grid.addWidget(verse_label)
 
     def get_good_font_size(
             self, font: QtGui.QFont, rect: QtCore.QRect, text: str,
@@ -55,8 +72,8 @@ class AdditionalWindow(QtWidgets.QMainWindow):
                 break
         return font.pointSize()
 
-    def show_text(self):
-        pass
+    # def show_text(self):
+    #     pass
 
 
 class GuiPluginMediator:
@@ -80,8 +97,10 @@ class GuiPluginMediator:
         pass
 
     def show(self, sender) -> None:
-        self._additional_window.show()
-        # self._additional_window.showFullScreen()
+        # self._additional_window.show()
+        self._additional_window.showFullScreen()
+        print(self._additional_window.rect())
+        self._additional_window.show_text()
 
     def hide(self, sender) -> None:
         self._additional_window.hide()
