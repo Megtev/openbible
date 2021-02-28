@@ -1,6 +1,7 @@
 import sys
 from PyQt5 import QtWidgets
 
+from openbibleui import OpenBibleUI
 from mediator import (GuiPluginMediator, )
 from plugins import (ButtonsPlugin, NullPlugin)
 
@@ -26,10 +27,13 @@ class OpenBibleMainGui(QtWidgets.QMainWindow):
         main_grid.setVerticalSpacing(24)
 
         # TODO plugins manager
+        # initiate mediator to control all plugins
         plugins = [ButtonsPlugin, NullPlugin]
         self.mediator = GuiPluginMediator(plugins)
 
         main_widget = QtWidgets.QWidget()
+
+        # arrange all widgets
         for (plugin, widget) in zip(self.mediator.get_plugins(),
                           self.mediator.get_widgets()):
             main_grid.addWidget(widget, *plugin.arrangement)
@@ -40,7 +44,7 @@ class OpenBibleMainGui(QtWidgets.QMainWindow):
         self.move_to_center()
 
     def move_to_center(self):
-        # Move main window to center of the display (not testet with multiple
+        # Move main window to center of the display (not tested with multiple
         # displays)
         qr = self.frameGeometry()
         cp = QtWidgets.QDesktopWidget().availableGeometry().center()
@@ -65,9 +69,15 @@ class OpenBibleMainGui(QtWidgets.QMainWindow):
             event.ignore()
     '''
 
+def main():
+    """Main function."""
+    openbible = QtWidgets.QApplication(sys.argv)
+
+    view = OpenBibleUI()
+    view.show()
+    sys.exit(openbible.exec_())
+
 
 if __name__ == '__main__':
+    main()
     app = QtWidgets.QApplication(sys.argv)
-    main_window = OpenBibleMainGui()
-    main_window.show()
-    sys.exit(app.exec_())
