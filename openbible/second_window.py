@@ -10,9 +10,9 @@ class OpenBibleSecondWindow(QtWidgets.QWidget):
         ' everlasting life.\nJohn 3:16'
     )
 
-    def __init__(self):
+    def __init__(self, parent=None):
         """Second View initializer."""
-        super(OpenBibleSecondWindow, self).__init__()
+        super(OpenBibleSecondWindow, self).__init__(parent=parent)
 
         # Set general layout and add small widget
         self.general_layout = QtWidgets.QGridLayout()
@@ -32,7 +32,7 @@ class OpenBibleSecondWindow(QtWidgets.QWidget):
         # Set font
         font = QtGui.QFont('Arial', 50)
         font.setBold(True)
-        font_size = self.get_good_font_size(font, self.rect(), self.test_verse)
+        font_size = self.get_good_font_size(font, self.rect(), self._verse.text())
         font.setPointSize(font_size)
 
         self._verse.setFont(font)
