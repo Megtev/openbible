@@ -15,6 +15,6 @@ class OpenBibleCtrl:
         # Connect signals and slots
         self._connectSignals()
 
-    def _connectSignals(self):
-        self._view.show_button.clicked.connect(self._sview.show_text)
+    def _connectSignals(self):  # Connect some buttons to second window
+        self._view.show_button.clicked.connect(self._sview.show)
         self._view.hide_button.clicked.connect(self._sview.hide)

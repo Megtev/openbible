@@ -19,7 +19,7 @@ class OpenBibleSecondWindow(QtWidgets.QWidget):
         self._verse = QtWidgets.QLabel(self)
         self.general_layout.addWidget(self._verse)
         self.setLayout(self.general_layout)
-
+        self.show_text()
 
     def show_text(self):
         self._verse.setText(self.test_verse)
@@ -36,7 +36,6 @@ class OpenBibleSecondWindow(QtWidgets.QWidget):
         font.setPointSize(font_size)
 
         self._verse.setFont(font)
-        self.show()
 
     def get_good_font_size(
             self, font: QtGui.QFont, rect: QtCore.QRect, text: str,
@@ -58,3 +57,11 @@ class OpenBibleSecondWindow(QtWidgets.QWidget):
                     and sized_rect.width() < rect.width()):
                 break
         return font.pointSize()
+
+    # Build-in functions
+
+    def resizeEvent(self, event: QtGui.QResizeEvent) -> None:
+        # Change size of text while resizing
+        super(OpenBibleSecondWindow, self).resizeEvent(event)
+        self.show_text()
+        return

@@ -1,4 +1,4 @@
-from PyQt5 import QtWidgets
+from PyQt5 import (QtWidgets, QtCore)
 
 from plugins import ButtonsPlugin
 
@@ -35,3 +35,19 @@ class OpenBibleUI(QtWidgets.QMainWindow):
 
         # Add _button_layout to general_layout
         self.general_layout.addLayout(self._button_layout)
+
+    # Build-in funtion
+
+    def closeEvent(self, event):
+        # Require additional confirmation to exit
+        reply = QtWidgets.QMessageBox.question(
+            self, 'Message',
+            "Are you sure to quit?",
+            QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No,
+            QtWidgets.QMessageBox.No)
+
+        if reply == QtWidgets.QMessageBox.Yes:
+            # self.hide_button.clicked.emit(True)
+            event.accept()
+        else:
+            event.ignore()

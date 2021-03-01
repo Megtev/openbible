@@ -98,9 +98,9 @@ class GuiPluginMediator:
 
     def show(self, sender) -> None:
         # self._additional_window.show()
+        self._additional_window.show_text()
         self._additional_window.showFullScreen()
         print(self._additional_window.rect())
-        self._additional_window.show_text()
 
     def hide(self, sender) -> None:
         self._additional_window.hide()
