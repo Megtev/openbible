@@ -1,9 +1,12 @@
 import sys
 from PyQt5 import QtWidgets
 
-from openbibleui import OpenBibleUI
+from ui import OpenBibleUI
 from mediator import (GuiPluginMediator, )
 from plugins import (ButtonsPlugin, NullPlugin)
+
+from controller import OpenBibleCtrl
+from second_window import OpenBibleSecondWindow
 
 
 class OpenBibleMainGui(QtWidgets.QMainWindow):
@@ -73,8 +76,12 @@ def main():
     """Main function."""
     openbible = QtWidgets.QApplication(sys.argv)
 
+
     view = OpenBibleUI()
     view.show()
+
+    sview = OpenBibleSecondWindow()
+    ctrl = OpenBibleCtrl(view, sview)
     sys.exit(openbible.exec_())
 
 

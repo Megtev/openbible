@@ -36,6 +36,7 @@ class OpenBibleSecondWindow(QtWidgets.QWidget):
         font.setPointSize(font_size)
 
         self._verse.setFont(font)
+        self.show()
 
     def get_good_font_size(
             self, font: QtGui.QFont, rect: QtCore.QRect, text: str,

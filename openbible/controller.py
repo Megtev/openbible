@@ -16,5 +16,5 @@ class OpenBibleCtrl:
         self._connectSignals()
 
     def _connectSignals(self):
-        self._view.show_button.clicked(self._sview.show_text)
-        self._view.hide_button.clicked(self._sview.hide)
+        self._view.show_button.clicked.connect(self._sview.show_text)
+        self._view.hide_button.clicked.connect(self._sview.hide)
