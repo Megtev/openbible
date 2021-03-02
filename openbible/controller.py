@@ -5,7 +5,7 @@ from second_window import OpenBibleSecondWindow
 
 
 class OpenBibleCtrl:
-    """OpenBIble controller class."""
+    """OpenBible controller class."""
 
     def __init__(self, view: OpenBibleUI, view2: OpenBibleSecondWindow):
         """Controller initializer."""
@@ -19,8 +19,6 @@ class OpenBibleCtrl:
         self._view.show_button.clicked.connect(self._sview.show)
         self._view.hide_button.clicked.connect(self._sview.hide)
         self._view.close_accept.connect(self._sview.close)  # Close all windows
-        # self._view.send_verse_button.clicked.connect(
-        #     partial(self._sview.set_text,
-        #             self._view.verse_input.text(),
-        #             self._view.verse_ref.text())
-        # )
+        self._view.send_verse_button.clicked.connect(
+            lambda: self._sview.set_text(*self._view.get_verse_ref())
+        )   # Send verse to second window

@@ -26,16 +26,18 @@ class OpenBibleUI(QtWidgets.QMainWindow):
         self._create_text_inputs() # Temporary
         self._create_buttons()
 
+    # Function to create UI
+
     def _create_text_inputs(self):
         # Create 2 input lines
-        self.verse_input = QtWidgets.QLineEdit()
-        self.verse_ref = QtWidgets.QLineEdit()
+        self._verse_input = QtWidgets.QLineEdit()
+        self._verse_ref = QtWidgets.QLineEdit()
         self.send_verse_button = QtWidgets.QPushButton('Send')
 
         # Add layout and arrange lines
         self._verse_layout = QtWidgets.QHBoxLayout()
-        self._verse_layout.addWidget(self.verse_input, 3)
-        self._verse_layout.addWidget(self.verse_ref, 1)
+        self._verse_layout.addWidget(self._verse_input, 3)
+        self._verse_layout.addWidget(self._verse_ref, 1)
         self._verse_layout.addWidget(self.send_verse_button, 1)
 
         self.general_layout.addLayout(self._verse_layout)
@@ -52,6 +54,13 @@ class OpenBibleUI(QtWidgets.QMainWindow):
 
         # Add _button_layout to general_layout
         self.general_layout.addLayout(self._button_layout)
+
+    # Functions for process
+
+    def get_verse_ref(self):
+        verse = self._verse_input.text()
+        ref = self._verse_ref.text()
+        return (verse, ref)
 
     # Build-in funtion
 
