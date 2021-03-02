@@ -19,49 +19,57 @@ class OpenBibleSecondWindow(QtWidgets.QWidget):
         self._verse = QtWidgets.QLabel(self)
         self.general_layout.addWidget(self._verse)
         self.setLayout(self.general_layout)
-        self.show_text()
-
-    def show_text(self):
+        self.show_window()
         self._verse.setText(self.test_verse)
+
+    def show_window(self):
         self._verse.setWordWrap(True)
-        self._verse.setAlignment(
+        self._verse.setAlignment(       # Set text in the center of window
             QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter
         )
         self._verse.setFrameStyle(QtWidgets.QLabel.Box)
 
         # Set font
-        font = QtGui.QFont('Arial', 50)
-        font.setBold(True)
-        font_size = self.get_good_font_size(font, self.rect(), self._verse.text())
+        font = QtGui.QFont('Arial', 50)     # Default font
+        font.setBold(True)                  # TODO add ability to change fonts
+        font_size = self.get_good_font_size(font,
+                                            self.rect(),
+                                            self._verse.text())
         font.setPointSize(font_size)
 
         self._verse.setFont(font)
 
-    def get_good_font_size(
+    def get_good_font_size(     # TODO increase stability and speed
             self, font: QtGui.QFont, rect: QtCore.QRect, text: str,
             *, step=5, max_size=80, min_size=0
     ) -> int:
         """Return the max size of the font that text can fit"""
-        current_font_size = max_size + 5
-        while True:
+        current_font_size = max_size + 5    # Set max size of the font
+        while True:     # Iterate size font while it fit into additional window
             current_font_size -= 5
             font.setPointSize(current_font_size)
             font_metrics = QtGui.QFontMetrics(font)
 
-            sized_rect = font_metrics.boundingRect(
-                rect,
+            sized_rect = font_metrics.boundingRect(  # Return rect of text with
+                rect,                                # current font
                 QtCore.Qt.AlignCenter | QtCore.Qt.TextWordWrap,
                 text
             )
-            if (sized_rect.height() < rect.height()
-                    and sized_rect.width() < rect.width()):
+            if (sized_rect.height() < rect.height()  # Check if font is not
+                    and sized_rect.width() < rect.width()):  # too large
                 break
         return font.pointSize()
+
+    def set_text(self, verse: str, ref: str) -> None:
+        """Set new text in the window"""
+        print(verse, ref)
+        self._verse.setText('{}\n{}'.format(verse, ref))
+        self.show_window()
 
     # Build-in functions
 
     def resizeEvent(self, event: QtGui.QResizeEvent) -> None:
         # Change size of text while resizing
         super(OpenBibleSecondWindow, self).resizeEvent(event)
-        self.show_text()
+        self.show_window()
         return
