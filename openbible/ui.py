@@ -6,6 +6,8 @@ from plugins import ButtonsPlugin
 class OpenBibleUI(QtWidgets.QMainWindow):
     """OpenBible View (GUI)."""
 
+    close_accept = QtCore.pyqtSignal()  # Signal to close additional windows
+
     def __init__(self):
         """View initializer."""
         super(OpenBibleUI, self).__init__()
@@ -47,7 +49,7 @@ class OpenBibleUI(QtWidgets.QMainWindow):
             QtWidgets.QMessageBox.No)
 
         if reply == QtWidgets.QMessageBox.Yes:
-            # self.hide_button.clicked.emit(True)
+            self.close_accept.emit()    # Close additional windows
             event.accept()
         else:
             event.ignore()
