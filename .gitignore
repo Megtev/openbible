@@ -130,3 +130,5 @@ dmypy.json
 
 # Users ignore
 .idea/
+openbible/translations/KJV/
+translates

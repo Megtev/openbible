@@ -1,7 +1,5 @@
 from PyQt5 import (QtWidgets, QtCore)
 
-from plugins import ButtonsPlugin
-
 
 class OpenBibleUI(QtWidgets.QMainWindow):
     """OpenBible View (GUI)."""
@@ -23,10 +21,47 @@ class OpenBibleUI(QtWidgets.QMainWindow):
         self._central_widget.setLayout(self.general_layout)
 
         # Create temp line for testing
+        self._create_combo_boxes()
         self._create_text_inputs() # Temporary
         self._create_buttons()
 
     # Function to create UI
+
+    def _create_combo_boxes(self):
+        """Widget to create combobox to choose book/chapter/verse"""
+        # Create combo boxes
+        self._tr = QtWidgets.QComboBox(self)
+        self._book = QtWidgets.QComboBox(self)
+        self._chapter = QtWidgets.QComboBox(self)
+        self._verse = QtWidgets.QComboBox(self)
+
+        # Add layout and arrange combo boxes
+        self._ref_layout = QtWidgets.QHBoxLayout()
+        self._ref_layout.addWidget(self._tr, 1)
+        self._ref_layout.addWidget(self._book, 5)
+        self._ref_layout.addWidget(self._chapter, 1)
+        self._ref_layout.addWidget(self._verse, 1)
+
+        self.general_layout.addLayout(self._ref_layout)
+
+    def add_translations(self, translations: dict):
+        # Add basic data to combo boxes
+        for tr in translations.keys():     # Add translates
+            self._tr.addItem(translations[tr], tr)
+
+        self._book.addItem('Genesis', 'genesis')  # Add books
+        self._book.addItem('Exodus', 'exodus')
+
+        self._chapter.addItem('1', '1')  # Add chapters
+        self._chapter.addItem('2', '2')
+        self._chapter.addItem('3', '3')
+        self._chapter.addItem('4', '4')
+
+        self._verse.addItem('1', '1')   # Add verses
+        self._verse.addItem('2', '2')
+        self._verse.addItem('3', '3')
+        self._verse.addItem('4', '4')
+
 
     def _create_text_inputs(self):
         # Create 2 input lines
