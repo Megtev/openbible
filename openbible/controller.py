@@ -32,3 +32,4 @@ class OpenBibleCtrl:
             self._model.get_translations()
         )
         self._view.set_books(self._model.get_books())
+        self._view.set_chapters(self._model.get_chapters())

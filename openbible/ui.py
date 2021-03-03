@@ -48,16 +48,15 @@ class OpenBibleUI(QtWidgets.QMainWindow):
         # Add basic data to combo boxes
         for tr in translations.keys():     # Add translates
             self._tr.addItem(translations[tr], tr)
+        # self._tr.setCurrentIndex(1)
 
     def set_books(self, books: list):
         for i in range(len(books)):     # Add books
             self._book.addItem(books[i], i)
 
-    def set_chapters(self, chapters):
-        self._chapter.addItem('1', '1')  # Add chapters
-        self._chapter.addItem('2', '2')
-        self._chapter.addItem('3', '3')
-        self._chapter.addItem('4', '4')
+    def set_chapters(self, chapters: int):
+        for i in range(1, chapters + 1):    # Add chapters
+            self._chapter.addItem(str(i), i)
 
     def set_verses(self, verses):
         self._verse.addItem('1', '1')   # Add verses

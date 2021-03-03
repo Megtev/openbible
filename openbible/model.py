@@ -18,6 +18,7 @@ class OpenBibleModel:   # TODO Implement OpenBible Model
 
         self._current_translation_json = {}
         self._init_books(self.get_current_translation())
+        self._current_book = 0
 
     def get_translations(self):
         """Get available translations."""
@@ -33,6 +34,12 @@ class OpenBibleModel:   # TODO Implement OpenBible Model
         return [book['full_name'] for book
                 in self._current_translation_json['books']
                 ]
+
+    def get_chapters(self):
+        """Get quantity of chapters in current book."""
+        return (self._current_translation_json['books']
+                [self._current_book]['chapters_qty']
+        )
 
     def _init_books(self, tr):  # TODO implement books initializating
         # self._current_translation_json = json.loads()
