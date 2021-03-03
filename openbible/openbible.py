@@ -22,7 +22,6 @@ def main():
     )
     ctrl = OpenBibleCtrl(view, sview, model)    # Create controller
                                                 # between view and sview
-    print(__file__)
     sys.exit(openbible.exec_())
 
 

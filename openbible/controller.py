@@ -15,7 +15,7 @@ class OpenBibleCtrl:
         self._sview = view2
         self._model = model
 
-        self._initialize_translations()  # Initialize translations
+        self._initialize_default_translations()  # Initialize translations
         # Connect signals and slots
         self._connect_signals()
 
@@ -27,7 +27,8 @@ class OpenBibleCtrl:
             lambda: self._sview.set_text(*self._view.get_verse_ref())
         )   # Send verse to second window
 
-    def _initialize_translations(self):     # TODO initialize books and verses
-        self._view.add_translations(
+    def _initialize_default_translations(self):
+        self._view.add_translations(    # TODO initialize books and verses
             self._model.get_translations()
         )
+        self._view.set_books(self._model.get_books())

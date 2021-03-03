@@ -49,14 +49,17 @@ class OpenBibleUI(QtWidgets.QMainWindow):
         for tr in translations.keys():     # Add translates
             self._tr.addItem(translations[tr], tr)
 
-        self._book.addItem('Genesis', 'genesis')  # Add books
-        self._book.addItem('Exodus', 'exodus')
+    def set_books(self, books: list):
+        for i in range(len(books)):     # Add books
+            self._book.addItem(books[i], i)
 
+    def set_chapters(self, chapters):
         self._chapter.addItem('1', '1')  # Add chapters
         self._chapter.addItem('2', '2')
         self._chapter.addItem('3', '3')
         self._chapter.addItem('4', '4')
 
+    def set_verses(self, verses):
         self._verse.addItem('1', '1')   # Add verses
         self._verse.addItem('2', '2')
         self._verse.addItem('3', '3')

@@ -13,10 +13,10 @@ class OpenBibleModel:   # TODO Implement OpenBible Model
         translations = os.listdir(self._tr_path)
         translations.remove('README.MD')  # Remove default file
         self._translations = {}
-        for tr in translations:
+        for tr in translations:     # TODO check config.json and all files
             self._translations[tr.lower()] = tr
 
-        self._current_translation_json = []
+        self._current_translation_json = {}
         self._init_books(self.get_current_translation())
 
     def get_translations(self):
@@ -26,11 +26,20 @@ class OpenBibleModel:   # TODO Implement OpenBible Model
     def get_current_translation(self):  # TODO get default translations
         """Get current translation."""
         # return self._translations[0]
+        return 'kjv'    # Temporary send KJV translation
 
-    def get_books(self, translation: str):  # TODO get list of books by
-        """Get list of books by translation."""     # translation
-        pass
+    def get_books(self):  # TODO get list of books by translation
+        """Get list of books by translation."""
+        return [book['full_name'] for book
+                in self._current_translation_json['books']
+                ]
 
     def _init_books(self, tr):  # TODO implement books initializating
         # self._current_translation_json = json.loads()
-        pass
+        self._current_translation_json = json.load(  # Load books info from
+            open(os.path.join(self._tr_path,         # config.json file
+                              self.get_current_translation().upper(),
+                              'config.json'
+                              ), mode='rt', encoding='utf-8'
+            )
+        )
