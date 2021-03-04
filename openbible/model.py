@@ -12,9 +12,9 @@ class OpenBibleModel:   # TODO Implement OpenBible Model
         # Every folder represent translation
         translations = os.listdir(self._tr_path)
         translations.remove('README.MD')  # Remove default file
-        self._translations = {}
+        self._translations = []
         for tr in translations:     # TODO check config.json and all files
-            self._translations[tr.lower()] = tr
+            self._translations.append(tr.upper())
 
         self._current_translation_json = {}
         self._current_book_json = {}

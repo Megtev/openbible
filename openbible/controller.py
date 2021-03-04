@@ -26,19 +26,25 @@ class OpenBibleCtrl:
         self._view.send_verse_button.clicked.connect(
             lambda: self._sview.set_text(*self._view.get_verse_ref())
         )   # Send verse to second window
-        self._view.book.currentIndexChanged.connect(
+
+        # Connect QComboBox for changing translations/books/chapters/verse
+        # TODO add ability to change translations
+        self._view.book.activated.connect(
             self._set_book)     # Book's changed, so change chapters and verses
-        self._view.chapter.currentIndexChanged.connect(
+        self._view.chapter.activated.connect(
             self._set_chapter)  # Chapter's changed, change verses
-        self._view.verse.currentIndexChanged.connect(
-            self._set_verse)    # Show selected verse
+        self._view.verse.activated.connect(     # Show selected verse
+            self._set_verse)
 
     def _initialize_default_translations(self):
-        self._view.add_translations(    # TODO initialize books and verses
-            self._model.get_translations()
+        translations = self._model.get_translations()
+        self._view.add_translations(
+            translations
         )
-        self._model.set_translation('kjv')  # Set default translation
+
         # TODO set translation by settings
+        self._view.set_translation(translations.index('KJV'))
+        self._model.set_translation('kjv')  # Set default translation
 
         # Add books in UI
         self._view.set_books(self._model.get_books())

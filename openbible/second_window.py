@@ -20,8 +20,8 @@ class OpenBibleSecondWindow(QtWidgets.QWidget):
         self.general_layout.addWidget(self._verse)
         self.setLayout(self.general_layout)
         self.show_window()
-        self._verse.setText('')
-        self.resize(960, 540)
+        self._verse.setText('')     # Set default text empty
+        self.resize(960, 540)       # Temporary set size of second window
 
     def show_window(self):
         self._verse.setWordWrap(True)

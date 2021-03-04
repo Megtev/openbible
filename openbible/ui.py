@@ -44,11 +44,14 @@ class OpenBibleUI(QtWidgets.QMainWindow):
 
         self.general_layout.addLayout(self._ref_layout)
 
-    def add_translations(self, translations: dict):
+    def add_translations(self, translations: list):
         # Add basic data to combo boxes
-        for tr in translations.keys():     # Add translates
-            self._tr.addItem(translations[tr], tr)
-        # self._tr.setCurrentIndex(1)
+        for i in range(len(translations)):     # Add translates
+            self._tr.addItem(translations[i], i)
+
+    def set_translation(self, tr):
+        """Select translation by index"""
+        self._tr.setCurrentIndex(tr)
 
     def set_books(self, books: list):
         self.book.clear()
