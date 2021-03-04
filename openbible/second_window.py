@@ -20,7 +20,8 @@ class OpenBibleSecondWindow(QtWidgets.QWidget):
         self.general_layout.addWidget(self._verse)
         self.setLayout(self.general_layout)
         self.show_window()
-        self._verse.setText(self.test_verse)
+        self._verse.setText('')
+        self.resize(480, 270)
 
     def show_window(self):
         self._verse.setWordWrap(True)
@@ -62,7 +63,6 @@ class OpenBibleSecondWindow(QtWidgets.QWidget):
 
     def set_text(self, verse: str, ref: str) -> None:
         """Set new text in the window"""
-        print(verse, ref)
         self._verse.setText('{}\n{}'.format(verse, ref))
         self.show_window()
 

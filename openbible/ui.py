@@ -31,16 +31,16 @@ class OpenBibleUI(QtWidgets.QMainWindow):
         """Widget to create combobox to choose book/chapter/verse"""
         # Create combo boxes
         self._tr = QtWidgets.QComboBox(self)
-        self._book = QtWidgets.QComboBox(self)
-        self._chapter = QtWidgets.QComboBox(self)
-        self._verse = QtWidgets.QComboBox(self)
+        self.book = QtWidgets.QComboBox(self)
+        self.chapter = QtWidgets.QComboBox(self)
+        self.verse = QtWidgets.QComboBox(self)
 
         # Add layout and arrange combo boxes
         self._ref_layout = QtWidgets.QHBoxLayout()
         self._ref_layout.addWidget(self._tr, 1)
-        self._ref_layout.addWidget(self._book, 5)
-        self._ref_layout.addWidget(self._chapter, 1)
-        self._ref_layout.addWidget(self._verse, 1)
+        self._ref_layout.addWidget(self.book, 5)
+        self._ref_layout.addWidget(self.chapter, 1)
+        self._ref_layout.addWidget(self.verse, 1)
 
         self.general_layout.addLayout(self._ref_layout)
 
@@ -51,19 +51,19 @@ class OpenBibleUI(QtWidgets.QMainWindow):
         # self._tr.setCurrentIndex(1)
 
     def set_books(self, books: list):
+        self.book.clear()
         for i in range(len(books)):     # Add books
-            self._book.addItem(books[i], i)
+            self.book.addItem(books[i], i)
 
     def set_chapters(self, chapters: int):
+        self.chapter.clear()
         for i in range(1, chapters + 1):    # Add chapters
-            self._chapter.addItem(str(i), i)
+            self.chapter.addItem(str(i), i)
 
     def set_verses(self, verses):
-        self._verse.addItem('1', '1')   # Add verses
-        self._verse.addItem('2', '2')
-        self._verse.addItem('3', '3')
-        self._verse.addItem('4', '4')
-
+        self.verse.clear()
+        for i in range(1, len(verses) + 1):   # Add verses, but only numbers
+            self.verse.addItem(str(i), i)
 
     def _create_text_inputs(self):
         # Create 2 input lines
