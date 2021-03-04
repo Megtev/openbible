@@ -85,6 +85,14 @@ class OpenBibleModel:   # TODO Implement OpenBible Model
         """Set current verse."""        # second screen
         self._current_verse = verse
 
+    def get_ref(self):
+        """Get reference for current verse"""
+        return '{} {}:{}'.format(
+            self._current_book_json['name'],
+            self._current_chapter + 1,
+            self._current_verse + 1
+        )
+
     def show_verse(self):
         pass
 

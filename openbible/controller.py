@@ -45,17 +45,17 @@ class OpenBibleCtrl:
         # Add chapters in UI
         self._view.set_chapters(self._model.get_chapters())
         # Add verses in UI
-        # self._view.set_verses(self._model.get_verses())
+        self._view.set_verses(self._model.get_verses())
 
     def _set_book(self, book):
         """Set new book."""
         self._model.set_book(book)  # Set new book in model
         self._set_chapter(0)  # Get new chapters
+        self._view.set_chapters(self._model.get_chapters())
 
     def _set_chapter(self, chapter):
         """Set new chapter."""
         self._model.set_chapter(chapter)    # Set chapter
-        # self._view.set_chapters(self._model.get_chapters())
         self._model.set_verse(0)    # Set first verse
         self._view.set_verses(self._model.get_verses()) # Show verses in UI
 
@@ -63,4 +63,5 @@ class OpenBibleCtrl:
         """Set and show new verse."""
         self._model.set_verse(verse)    # Set verse
         verse = self._model.get_verse()  # Get text of the verse
-        self._sview.set_text(verse, 'REF')  # Show text in second screen
+        ref = self._model.get_ref()
+        self._sview.set_text(verse, ref)  # Show text in second screen
