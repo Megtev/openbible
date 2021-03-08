@@ -19,6 +19,13 @@ class OpenBibleSecondWindow(QtWidgets.QWidget):
         self._verse = QtWidgets.QLabel(self)
         self.general_layout.addWidget(self._verse)
         self.setLayout(self.general_layout)
+
+        # TODO add ability to show full screen on other monitors
+        display_monitor = 1     # Num of the monitor
+        monitor = QtWidgets.QDesktopWidget().screenGeometry(display_monitor)
+        print(monitor)
+        self.move(monitor.left(), monitor.top())
+
         self.show_window()
         self._verse.setText('')     # Set default text empty
         self.resize(960, 540)       # Temporary set size of second window

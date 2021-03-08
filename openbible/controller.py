@@ -20,7 +20,7 @@ class OpenBibleCtrl:
         self._connect_signals()
 
     def _connect_signals(self):  # Connect some buttons to second window
-        self._view.show_button.clicked.connect(self._sview.show)
+        self._view.show_button.clicked.connect(self._sview.showFullScreen)
         self._view.hide_button.clicked.connect(self._sview.hide)
         self._view.close_accept.connect(self._sview.close)  # Close all windows
         self._view.send_verse_button.clicked.connect(
