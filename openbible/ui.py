@@ -1,4 +1,4 @@
-from PyQt5 import (QtWidgets, QtCore)
+from PyQt5 import (QtWidgets, QtCore, QtGui)
 
 
 class OpenBibleUI(QtWidgets.QMainWindow):
@@ -15,7 +15,7 @@ class OpenBibleUI(QtWidgets.QMainWindow):
         self.resize(600, 400)
 
         # Set central widget and general layout
-        self.general_layout = QtWidgets.QVBoxLayout()
+        self.general_layout = QtWidgets.QHBoxLayout()
         self._central_widget = QtWidgets.QWidget(self)
         self.setCentralWidget(self._central_widget)
         self._central_widget.setLayout(self.general_layout)
@@ -24,8 +24,17 @@ class OpenBibleUI(QtWidgets.QMainWindow):
         self._create_combo_boxes()
         self._create_text_inputs() # Temporary
         self._create_buttons()
+        self._preview = MiniSecondWindow(self)
+
+        self.general_layout.addWidget(QtWidgets.QWidget(self), 3)
+        self.general_layout.addWidget(self._preview, 1)
+        # Create screens for preview
+        self._create_screen()
 
     # Function to create UI
+
+    def _create_screen(self):
+        self._sscreen = QtWidgets.QWidget(self)
 
     def _create_combo_boxes(self):
         """Widget to create combobox to choose book/chapter/verse"""
@@ -117,3 +126,30 @@ class OpenBibleUI(QtWidgets.QMainWindow):
             event.accept()
         else:
             event.ignore()
+
+
+class MiniSecondWindow(QtWidgets.QWidget):
+    """Window for preview in UI."""
+
+    def __init__(self, parent=None):  # TODO better __init__
+        super(MiniSecondWindow, self).__init__(parent=parent)
+        self.general_layout = QtWidgets.QGridLayout()
+        self._verse = QtWidgets.QLabel(self)
+        self.general_layout.addWidget(self._verse)
+        self.setLayout(self.general_layout)
+        # self.show_window()
+        self._verse.setText('')  # Set default text empty
+        self._verse.setWordWrap(True)
+        self._verse.setAlignment(  # Set text in the center of window
+            QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter
+        )
+        self._verse.setFrameStyle(QtWidgets.QLabel.Box)
+        font = QtGui.QFont('Arial', 5)  # Default font
+        font.setBold(True)  # TODO add ability to change fonts
+
+    def set_text(self, verse: str, ref: str, font_size: int):
+        font = QtGui.QFont('Arial', 50)  # Default font
+        font.setBold(True)  # TODO add ability to change fonts
+        font.setPointSize(font_size)
+        self._verse.setFont(font)
+        self._verse.setText('{}\n{}'.format(verse, ref))
