@@ -1,4 +1,4 @@
-from PyQt5 import (QtWidgets, QtCore, QtGui)
+from PyQt5 import (QtWidgets, QtCore, QtGui,)
 
 
 class OpenBibleUI(QtWidgets.QMainWindow):
@@ -15,26 +15,38 @@ class OpenBibleUI(QtWidgets.QMainWindow):
         self.resize(600, 400)
 
         # Set central widget and general layout
+        self.left_layout = QtWidgets.QVBoxLayout()
         self.general_layout = QtWidgets.QHBoxLayout()
         self._central_widget = QtWidgets.QWidget(self)
         self.setCentralWidget(self._central_widget)
         self._central_widget.setLayout(self.general_layout)
+        self.general_layout.addLayout(self.left_layout, 3)
 
         # Create temp line for testing
         self._create_combo_boxes()
         self._create_text_inputs() # Temporary
         self._create_buttons()
-        self._preview = MiniSecondWindow(self)
 
-        self.general_layout.addWidget(QtWidgets.QWidget(self), 3)
-        self.general_layout.addWidget(self._preview, 1)
+        # self.temp_layout.addWidget(QtWidgets.QWidget(self), 2)
+
         # Create screens for preview
-        self._create_screen()
+        self._create_screens()
+        self._preview.set_text('some', 'this', 5)
+        self._view.set_text('some', 'this', 5)
 
     # Function to create UI
 
-    def _create_screen(self):
-        self._sscreen = QtWidgets.QWidget(self)
+    def _create_screens(self):
+        # Create 2 screens
+        self._preview = MiniSecondWindow(self)
+        self._view = MiniSecondWindow(self)
+
+        # Add screens to layout
+        self.screen_layout = QtWidgets.QVBoxLayout()
+        self.screen_layout.addWidget(self._view)
+        self.screen_layout.addWidget(self._preview)
+        self.screen_layout.addStretch()
+        self.general_layout.addLayout(self.screen_layout, 1)
 
     def _create_combo_boxes(self):
         """Widget to create combobox to choose book/chapter/verse"""
@@ -51,7 +63,7 @@ class OpenBibleUI(QtWidgets.QMainWindow):
         self._ref_layout.addWidget(self.chapter, 1)
         self._ref_layout.addWidget(self.verse, 1)
 
-        self.general_layout.addLayout(self._ref_layout)
+        self.left_layout.addLayout(self._ref_layout)
 
     def add_translations(self, translations: list):
         # Add basic data to combo boxes
@@ -89,7 +101,7 @@ class OpenBibleUI(QtWidgets.QMainWindow):
         self._verse_layout.addWidget(self._verse_ref, 1)
         self._verse_layout.addWidget(self.send_verse_button, 1)
 
-        self.general_layout.addLayout(self._verse_layout)
+        self.left_layout.addLayout(self._verse_layout)
 
     def _create_buttons(self):
         # Create 2 buttons
@@ -102,7 +114,7 @@ class OpenBibleUI(QtWidgets.QMainWindow):
         self._button_layout.addWidget(self.hide_button)
 
         # Add _button_layout to general_layout
-        self.general_layout.addLayout(self._button_layout)
+        self.left_layout.addLayout(self._button_layout)
 
     # Functions for process
 
@@ -137,7 +149,7 @@ class MiniSecondWindow(QtWidgets.QWidget):
         self._verse = QtWidgets.QLabel(self)
         self.general_layout.addWidget(self._verse)
         self.setLayout(self.general_layout)
-        # self.show_window()
+
         self._verse.setText('')  # Set default text empty
         self._verse.setWordWrap(True)
         self._verse.setAlignment(  # Set text in the center of window
@@ -153,3 +165,13 @@ class MiniSecondWindow(QtWidgets.QWidget):
         font.setPointSize(font_size)
         self._verse.setFont(font)
         self._verse.setText('{}\n{}'.format(verse, ref))
+
+    # Build-in funtion
+
+    def resizeEvent(self, event: QtGui.QResizeEvent) -> None:
+        # Change size of text while resizing
+        width = self.width()
+        self.resize(width, int(width / 16 * 9))
+        # self.updateGeomentry()
+        super(MiniSecondWindow, self).resizeEvent(event)
+        return
