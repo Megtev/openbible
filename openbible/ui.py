@@ -40,12 +40,15 @@ class OpenBibleUI(QtWidgets.QMainWindow):
         # Create 2 screens
         self._preview = MiniSecondWindow(self)
         self._view = MiniSecondWindow(self)
+        print(self._preview.hasHeightForWidth())
+        print(self._preview.sizePolicy().hasHeightForWidth())
+        # self._preview.setSize
 
         # Add screens to layout
         self.screen_layout = QtWidgets.QVBoxLayout()
         self.screen_layout.addWidget(self._view)
         self.screen_layout.addWidget(self._preview)
-        self.screen_layout.addStretch()
+        # self.screen_layout.addStretch()
         self.general_layout.addLayout(self.screen_layout, 1)
 
     def _create_combo_boxes(self):
@@ -150,6 +153,11 @@ class MiniSecondWindow(QtWidgets.QWidget):
         self.general_layout.addWidget(self._verse)
         self.setLayout(self.general_layout)
 
+        policy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred,
+                                       QtWidgets.QSizePolicy.Minimum,)
+        policy.setHeightForWidth(True)
+        self.setSizePolicy(policy)
+
         self._verse.setText('')  # Set default text empty
         self._verse.setWordWrap(True)
         self._verse.setAlignment(  # Set text in the center of window
@@ -168,10 +176,23 @@ class MiniSecondWindow(QtWidgets.QWidget):
 
     # Build-in funtion
 
-    def resizeEvent(self, event: QtGui.QResizeEvent) -> None:
-        # Change size of text while resizing
-        width = self.width()
-        self.resize(width, int(width / 16 * 9))
-        # self.updateGeomentry()
-        super(MiniSecondWindow, self).resizeEvent(event)
-        return
+    # def resizeEvent(self, event: QtGui.QResizeEvent) -> None:
+    #     # Change size of text while resizing
+    #     width = self.width()
+    #     self.resize(width, int(width / 16 * 9))
+    #     # self.updateGeomentry()
+    #     super(MiniSecondWindow, self).resizeEvent(event)
+    #     return
+
+    # def heightForWidth(self, a0: int) -> int:
+    #     print('width', a0)
+    #     return a0
+
+    # def hasHeightForWidth(self) -> bool:
+    #     return True
+
+    def sizeHint(self) -> QtCore.QSize:
+        return QtCore.QSize(384, 216)
+
+    def baseSize(self) -> QtCore.QSize:
+        return QtCore.QSize(16, 9)
