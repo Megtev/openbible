@@ -31,15 +31,15 @@ class OpenBibleUI(QtWidgets.QMainWindow):
 
         # Create screens for preview
         self._create_screens()
-        self._preview.set_text('some', 'this', 5)
-        self._view.set_text('some', 'this', 5)
+        self._view.set_text('some', 'this', 20)
+        self._preview.set_text('some', 'this', 15)
 
     # Function to create UI
 
     def _create_screens(self):
         # Create 2 screens
-        self._preview = MiniSecondWindow(self)
         self._view = MiniSecondWindow(self)
+        self._preview = MiniSecondWindow(self)
         print(self._preview.hasHeightForWidth())
         print(self._preview.sizePolicy().hasHeightForWidth())
         # self._preview.setSize
@@ -47,6 +47,8 @@ class OpenBibleUI(QtWidgets.QMainWindow):
         # Add screens to layout
         self.screen_layout = QtWidgets.QVBoxLayout()
         self.screen_layout.addWidget(self._view)
+        self.screen_layout.addStretch()
+
         self.screen_layout.addWidget(self._preview)
         # self.screen_layout.addStretch()
         self.general_layout.addLayout(self.screen_layout, 1)
@@ -148,15 +150,15 @@ class MiniSecondWindow(QtWidgets.QWidget):
 
     def __init__(self, parent=None):  # TODO better __init__
         super(MiniSecondWindow, self).__init__(parent=parent)
-        self.general_layout = QtWidgets.QGridLayout()
+        self.general_layout = QtWidgets.QHBoxLayout()
         self._verse = QtWidgets.QLabel(self)
         self.general_layout.addWidget(self._verse)
         self.setLayout(self.general_layout)
 
-        policy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred,
-                                       QtWidgets.QSizePolicy.Minimum,)
-        policy.setHeightForWidth(True)
-        self.setSizePolicy(policy)
+        # policy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum,
+        #                                QtWidgets.QSizePolicy.Maximum)
+        # policy.setHeightForWidth(True)
+        # self.setSizePolicy(policy)
 
         self._verse.setText('')  # Set default text empty
         self._verse.setWordWrap(True)
@@ -164,8 +166,11 @@ class MiniSecondWindow(QtWidgets.QWidget):
             QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter
         )
         self._verse.setFrameStyle(QtWidgets.QLabel.Box)
-        font = QtGui.QFont('Arial', 5)  # Default font
+        # self.setBaseSize(384, 216)
+        font = QtGui.QFont('Arial', 15)  # Default font
         font.setBold(True)  # TODO add ability to change fonts
+        self.updateGeometry()
+        self.setContentsMargins(0, 0, 0, 0)
 
     def set_text(self, verse: str, ref: str, font_size: int):
         font = QtGui.QFont('Arial', 50)  # Default font
@@ -176,23 +181,24 @@ class MiniSecondWindow(QtWidgets.QWidget):
 
     # Build-in funtion
 
-    # def resizeEvent(self, event: QtGui.QResizeEvent) -> None:
-    #     # Change size of text while resizing
-    #     width = self.width()
-    #     self.resize(width, int(width / 16 * 9))
-    #     # self.updateGeomentry()
-    #     super(MiniSecondWindow, self).resizeEvent(event)
-    #     return
+    def resizeEvent(self, event: QtGui.QResizeEvent) -> None:
+        # Change size of text while resizing
+        super(MiniSecondWindow, self).resizeEvent(event)
+        width = self.width()
+        self.resize(width, int(width / 16 * 9))
+        self.updateGeometry()
+        # self.updateGeomentry()
+        return
 
-    # def heightForWidth(self, a0: int) -> int:
-    #     print('width', a0)
-    #     return a0
+    def heightForWidth(self, a0: int) -> int:
+        print('width', a0)
+        return a0
 
     # def hasHeightForWidth(self) -> bool:
     #     return True
 
     def sizeHint(self) -> QtCore.QSize:
         return QtCore.QSize(384, 216)
-
-    def baseSize(self) -> QtCore.QSize:
-        return QtCore.QSize(16, 9)
+    #
+    # def baseSize(self) -> QtCore.QSize:
+    #     return QtCore.QSize(16, 9)
